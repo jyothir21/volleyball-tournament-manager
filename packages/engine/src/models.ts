@@ -36,6 +36,7 @@ export interface Match {
   teamAId: TeamId;
   teamBId: TeamId;
   courtId?: CourtId;
+  status: MatchStatus;
   result?: MatchResult;
 }
 
@@ -60,4 +61,10 @@ export interface Tournament {
   name: string;
   teams: Team[];
   matches: Match[];
+}
+
+export enum MatchStatus {
+  Scheduled = "scheduled",
+  Completed = "completed",
+  Locked = "locked",
 }

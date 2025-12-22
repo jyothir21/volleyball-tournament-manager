@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { computeStandings } from "../standings/computeStandings.js";
 import type { Match, Team } from "../models.js";
+import { MatchStatus } from "../models.js";
 
 describe("standings computation", () => {
   const teams: Team[] = [
@@ -14,6 +15,7 @@ describe("standings computation", () => {
         id: "m1",
         teamAId: "A",
         teamBId: "B",
+        status: MatchStatus.Completed,
         result: {
           winnerTeamId: "A",
           sets: [

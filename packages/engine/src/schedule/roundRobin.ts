@@ -1,4 +1,5 @@
 import type { Match, Team, CourtId } from "../models.js";
+import { MatchStatus } from "../models.js";
 
 export interface Round {
   roundNumber: number;
@@ -54,6 +55,7 @@ export function generateRoundRobinSchedule(
         teamAId: teamA.id,
         teamBId: teamB.id,
         courtId,
+        status: MatchStatus.Scheduled,
       });
     }
 

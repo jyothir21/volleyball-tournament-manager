@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Team, Match } from "../models.js";
+import { MatchStatus } from "../models.js";
 
 describe("tournament domain models", () => {
   it("allows creating a basic match", () => {
@@ -7,9 +8,10 @@ describe("tournament domain models", () => {
     const teamB: Team = { id: "B", name: "Team B" };
 
     const match: Match = {
-      id: "match-1",
-      teamAId: teamA.id,
-      teamBId: teamB.id,
+      id: "m1",
+      teamAId: "A",
+      teamBId: "B",
+      status: MatchStatus.Scheduled,
     };
 
     expect(match.teamAId).toBe("A");
