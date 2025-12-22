@@ -5,3 +5,5 @@ dist
 *.code-workspace
 **/*.test.js
 **/*.test.d.ts
+/runs
+**/*.sh
