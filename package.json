@@ -1,0 +1,17 @@
+{
+  "name": "volleyball-tournament-manager",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm -w @vtm/engine test",
+    "build": "npm -w @vtm/engine run build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  }
+}
