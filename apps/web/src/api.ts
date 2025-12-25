@@ -28,3 +28,9 @@ export async function getStandings(tournamentId: string) {
   );
   return res.data;
 }
+
+export async function lockMatch(tournamentId: string, matchId: string) {
+  await axios.post(
+    `${API_BASE}/tournaments/${tournamentId}/matches/${matchId}/lock`
+  );
+}

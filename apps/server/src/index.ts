@@ -86,6 +86,20 @@ app.post("/tournaments/:id/matches/:matchId/result", (req, res) => {
   }
 });
 
+app.post("/tournaments/:id/matches/:matchId/lock", (req, res) => {
+  const state = tournaments.get(req.params.id);
+  if (!state) {
+    return res.status(404).json({ error: "Tournament not found" });
+  }
+
+  try {
+    state.lockMatch(req.params.matchId);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).json({ error: (err as Error).message });
+  }
+});
+
 /**
  * (Optional) Health check
  */
