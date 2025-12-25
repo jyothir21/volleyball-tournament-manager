@@ -110,3 +110,32 @@ app.get("/", (_req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+app.post("/tournaments/:id/playoffs", (req, res) => {
+  const state = tournaments.get(req.params.id);
+  if (!state) {
+    return res.status(404).json({ error: "Tournament not found" });
+  }
+
+  try {
+    const bracket = state.generatePlayoffs();
+    res.json(bracket);
+  } catch (err) {
+    res.status(400).json({ error: (err as Error).message });
+  }
+});
+
+app.get("/tournaments/:id/playoffs", (req, res) => {
+  const state = tournaments.get(req.params.id);
+  if (!state) {
+    return res.status(404).json({ error: "Tournament not found" });
+  }
+
+  const bracket = state.getPlayoffs();
+  if (!bracket) {
+    return res.status(404).json({ error: "Playoffs not generated" });
+  }
+
+  res.json(bracket);
+});
+

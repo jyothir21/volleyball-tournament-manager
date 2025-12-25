@@ -34,3 +34,17 @@ export async function lockMatch(tournamentId: string, matchId: string) {
     `${API_BASE}/tournaments/${tournamentId}/matches/${matchId}/lock`
   );
 }
+
+export async function generatePlayoffs(tournamentId: string) {
+  const res = await axios.post(
+    `${API_BASE}/tournaments/${tournamentId}/playoffs`
+  );
+  return res.data;
+}
+
+export async function getPlayoffs(tournamentId: string) {
+  const res = await axios.get(
+    `${API_BASE}/tournaments/${tournamentId}/playoffs`
+  );
+  return res.data;
+}

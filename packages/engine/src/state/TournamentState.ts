@@ -1,9 +1,12 @@
 import type { Tournament, Match, Team, StandingsRow } from "../models.js";
 import { MatchStatus } from "../models.js";
 import { computeStandings, validateAndCreateMatchResult } from "../index.js";
+import { generateSingleEliminationBracket } from "../playoffs/generateSingleElim.js";
+import type { PlayoffBracket } from "../models.js";
 
 export class TournamentState {
   private tournament: Tournament;
+  private playoffBracket?: PlayoffBracket;
 
   constructor(tournament: Tournament) {
     this.tournament = tournament;
@@ -51,5 +54,19 @@ export class TournamentState {
     }
 
     match.status = MatchStatus.Locked;
+  }
+
+  generatePlayoffs(): PlayoffBracket {
+    if (this.playoffBracket) {
+      throw new Error("Playoffs already generated");
+    }
+
+    const standings = this.getStandings();
+    this.playoffBracket = generateSingleEliminationBracket(standings);
+    return this.playoffBracket;
+  }
+
+  getPlayoffs(): PlayoffBracket | undefined {
+    return this.playoffBracket;
   }
 }

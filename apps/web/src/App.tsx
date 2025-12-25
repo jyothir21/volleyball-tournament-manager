@@ -4,6 +4,7 @@ import {
   submitMatchResult,
   getStandings,
   lockMatch,
+  generatePlayoffs,
 } from "./api";
 
 type Team = {
@@ -30,6 +31,7 @@ export default function App() {
   const [scores, setScores] = useState<
     Record<string, { a: number; b: number }>
   >({});
+  const [playoffs, setPlayoffs] = useState<any | null>(null);
 
   async function handleCreateTournament() {
     const result = await createTournament({
@@ -169,6 +171,34 @@ export default function App() {
               ))}
             </tbody>
           </table>
+          <button
+            disabled={!tournamentId}
+            onClick={async () => {
+              if (!tournamentId) return;
+              const bracket = await generatePlayoffs(tournamentId);
+              setPlayoffs(bracket);
+            }}
+          >
+            Generate Playoffs
+          </button>
+
+          {playoffs && (
+            <>
+              <h2>Playoffs</h2>
+              {playoffs.rounds.map((round: any) => (
+                <div key={round.roundNumber}>
+                  <h3>Round {round.roundNumber}</h3>
+                  <ul>
+                    {round.matches.map((m: any) => (
+                      <li key={m.id}>
+                        {m.teamAId} vs {m.teamBId}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </>
+          )}
         </>
       )}
     </div>

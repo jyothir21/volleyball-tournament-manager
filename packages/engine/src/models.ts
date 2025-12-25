@@ -68,3 +68,12 @@ export enum MatchStatus {
   Completed = "completed",
   Locked = "locked",
 }
+
+export type BracketRound = {
+  roundNumber: number;
+  matches: Match[];
+};
+
+export type PlayoffBracket = {
+  rounds: BracketRound[];
+};
