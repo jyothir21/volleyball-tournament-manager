@@ -69,4 +69,48 @@ export class TournamentState {
   getPlayoffs(): PlayoffBracket | undefined {
     return this.playoffBracket;
   }
+
+  submitPlayoffMatchResult(matchId: string, sets: any[]): void {
+    if (!this.playoffBracket) {
+      throw new Error("Playoffs not generated");
+    }
+
+    for (let r = 0; r < this.playoffBracket.rounds.length; r++) {
+      const round = this.playoffBracket.rounds[r];
+      const match = round.matches.find((m) => m.id === matchId);
+
+      if (!match) continue;
+
+      if (match.status !== MatchStatus.Scheduled) {
+        throw new Error("Match is not editable");
+      }
+
+      match.result = validateAndCreateMatchResult(
+        match.teamAId,
+        match.teamBId,
+        sets
+      );
+      match.status = MatchStatus.Completed;
+
+      const winner = match.result.winnerTeamId;
+
+      // Advance winner
+      if (match.winnerToMatchId) {
+        const nextRound = this.playoffBracket.rounds[r + 1];
+        const nextMatch = nextRound.matches.find(
+          (m) => m.id === match.winnerToMatchId
+        )!;
+
+        if (!nextMatch.teamAId) {
+          nextMatch.teamAId = winner;
+        } else {
+          nextMatch.teamBId = winner;
+        }
+      }
+
+      return;
+    }
+
+    throw new Error("Playoff match not found");
+  }
 }

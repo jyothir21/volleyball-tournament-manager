@@ -5,6 +5,8 @@ import {
   getStandings,
   lockMatch,
   generatePlayoffs,
+  getPlayoffs,
+  submitPlayoffResult,
 } from "./api";
 
 type Team = {
@@ -142,6 +144,20 @@ export default function App() {
                     }}
                   >
                     Lock Match
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      await submitPlayoffResult(tournamentId!, m.id, [
+                        { teamA: 25, teamB: 20 },
+                        { teamA: 25, teamB: 18 },
+                      ]);
+
+                      const updated = await getPlayoffs(tournamentId!);
+                      setPlayoffs(updated);
+                    }}
+                  >
+                    Submit Result
                   </button>
                 </div>
               </li>

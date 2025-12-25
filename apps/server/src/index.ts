@@ -139,3 +139,21 @@ app.get("/tournaments/:id/playoffs", (req, res) => {
   res.json(bracket);
 });
 
+app.post("/tournaments/:id/playoffs/:matchId/result", (req, res) => {
+  const state = tournaments.get(req.params.id);
+  if (!state) {
+    return res.status(404).json({ error: "Tournament not found" });
+  }
+
+  try {
+    const { sets } = req.body;
+    if (!sets) {
+      return res.status(400).json({ error: "Missing sets" });
+    }
+
+    state.submitPlayoffMatchResult(req.params.matchId, sets);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).json({ error: (err as Error).message });
+  }
+});

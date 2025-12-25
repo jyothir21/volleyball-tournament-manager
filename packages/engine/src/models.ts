@@ -71,9 +71,13 @@ export enum MatchStatus {
 
 export type BracketRound = {
   roundNumber: number;
-  matches: Match[];
+  matches: PlayoffMatch[];
 };
 
 export type PlayoffBracket = {
   rounds: BracketRound[];
+};
+
+export type PlayoffMatch = Match & {
+  winnerToMatchId?: string;
 };

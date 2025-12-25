@@ -48,3 +48,14 @@ export async function getPlayoffs(tournamentId: string) {
   );
   return res.data;
 }
+
+export async function submitPlayoffResult(
+  tournamentId: string,
+  matchId: string,
+  sets: { teamA: number; teamB: number }[]
+) {
+  await axios.post(
+    `${API_BASE}/tournaments/${tournamentId}/playoffs/${matchId}/result`,
+    { sets }
+  );
+}
